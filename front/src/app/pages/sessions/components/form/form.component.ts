@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { take } from 'rxjs';
 import { SessionService } from '../../../../core/service/session.service';
 import { TeacherService } from '../../../../core/service/teacher.service';
 import { Session } from '../../../../core/models/session.interface';
@@ -39,6 +40,7 @@ export class FormComponent implements OnInit {
       this.id = this.route.snapshot.paramMap.get('id')!;
       this.sessionApiService
         .detail(this.id)
+        .pipe(take(1))
         .subscribe((session: Session) => this.initForm(session));
     } else {
       this.initForm();
@@ -51,10 +53,12 @@ export class FormComponent implements OnInit {
     if (!this.onUpdate) {
       this.sessionApiService
         .create(session)
+        .pipe(take(1))
         .subscribe((_: Session) => this.exitPage('Session created !'));
     } else {
       this.sessionApiService
         .update(this.id!, session)
+        .pipe(take(1))
         .subscribe((_: Session) => this.exitPage('Session updated !'));
     }
   }

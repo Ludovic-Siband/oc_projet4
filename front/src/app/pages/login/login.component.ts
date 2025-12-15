@@ -1,6 +1,8 @@
 import { Component, inject } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { take } from 'rxjs';
 import { SessionInformation } from 'src/app/core/models/sessionInformation.interface';
 import { SessionService } from 'src/app/core/service/session.service';
 import { LoginRequest } from '../../core/models/loginRequest.interface';
@@ -42,12 +44,14 @@ export class LoginComponent {
 
   public submit(): void {
     const loginRequest = this.form.value as LoginRequest;
-    this.authService.login(loginRequest).subscribe({
-      next: (response: SessionInformation) => {
-        this.sessionService.logIn(response);
-        this.router.navigate(['/sessions']);
-      },
-      error: error => this.onError = true,
-    });
+    this.authService.login(loginRequest)
+      .pipe(take(1))
+      .subscribe({
+        next: (response: SessionInformation) => {
+          this.sessionService.logIn(response);
+          this.router.navigate(['/sessions']);
+        },
+        error: (_error: HttpErrorResponse) => this.onError = true,
+      });
   }
 }

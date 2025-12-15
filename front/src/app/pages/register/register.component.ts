@@ -1,6 +1,8 @@
 import { Component, inject } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { take } from 'rxjs';
 import { AuthService } from '../../core/service/auth.service';
 import { RegisterRequest } from '../../core/models/registerRequest.interface';
 import { MaterialModule } from "../../shared/material.module";
@@ -54,11 +56,13 @@ export class RegisterComponent {
 
   public submit(): void {
     const registerRequest = this.form.value as RegisterRequest;
-    this.authService.register(registerRequest).subscribe({
-        next: (_: void) => this.router.navigate(['/login']),
-        error: _ => this.onError = true,
-      }
-    );
+    this.authService.register(registerRequest)
+      .pipe(take(1))
+      .subscribe({
+          next: (_: void) => this.router.navigate(['/login']),
+          error: (_error: HttpErrorResponse) => this.onError = true,
+        }
+      );
   }
 
 }
