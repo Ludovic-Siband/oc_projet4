@@ -46,3 +46,8 @@ Launching test:
 for following change:
 
 > npm run test:watch
+
+### Jest code coverage :
+
+![Jest code coverage](./doc/images/code_coverage.png)
+
