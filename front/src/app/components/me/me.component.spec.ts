@@ -5,6 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { expect } from '@jest/globals';
 import { SessionService } from 'src/app/core/service/session.service';
 
 import { MeComponent } from './me.component';
@@ -21,14 +22,14 @@ describe('MeComponent', () => {
   }
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MeComponent],
       imports: [
         MatSnackBarModule,
         HttpClientModule,
         MatCardModule,
         MatFormFieldModule,
         MatIconModule,
-        MatInputModule
+        MatInputModule,
+        MeComponent
       ],
       providers: [{ provide: SessionService, useValue: mockSessionService }],
     })
