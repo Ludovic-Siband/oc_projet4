@@ -1,6 +1,36 @@
 import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
 
-setupZoneTestEnv();
+const globalScope = globalThis as typeof globalThis & {
+  __jestZoneTestEnvInitialized__?: boolean;
+};
+
+if (!globalScope.__jestZoneTestEnvInitialized__) {
+  globalScope.__jestZoneTestEnvInitialized__ = true;
+  try {
+    setupZoneTestEnv();
+  } catch (error) {
+    if (error instanceof Error && error.message.includes('Cannot set base providers')) {
+      // TestBed environment already initialized (ex: ng test via @angular-builders/jest)
+    } else {
+      throw error;
+    }
+  }
+}
+
+function definePropertyIfPossible<T extends object>(
+  target: T,
+  key: PropertyKey,
+  descriptor: PropertyDescriptor
+): void {
+  const existing = Object.getOwnPropertyDescriptor(target, key);
+  if (existing && existing.configurable === false) return;
+  if (existing) return;
+  try {
+    Object.defineProperty(target, key, descriptor);
+  } catch {
+    // Ignore re-definition errors when the test runner loads this file multiple times.
+  }
+}
 
 /* global mocks for jsdom */
 const mock = () => {
@@ -13,13 +43,13 @@ const mock = () => {
   };
 };
 
-Object.defineProperty(window, 'localStorage', { value: mock() });
-Object.defineProperty(window, 'sessionStorage', { value: mock() });
-Object.defineProperty(window, 'getComputedStyle', {
+definePropertyIfPossible(window, 'localStorage', { value: mock() });
+definePropertyIfPossible(window, 'sessionStorage', { value: mock() });
+definePropertyIfPossible(window, 'getComputedStyle', {
   value: () => ['-webkit-appearance'],
 });
 
-Object.defineProperty(document.body.style, 'transform', {
+definePropertyIfPossible(document.body.style, 'transform', {
   value: () => {
     return {
       enumerable: true,
