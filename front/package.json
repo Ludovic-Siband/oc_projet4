@@ -51,6 +51,7 @@
     "cypress": "15.2.0",
     "@cypress/code-coverage": "3.14.6",
     "@cypress/schematic": "4.3.0",
+    "@jsdevtools/coverage-istanbul-loader": "3.0.5",
     "nyc": "17.1.0",
     "@istanbuljs/nyc-config-typescript": "1.0.2",
     "istanbul-lib-coverage": "3.2.2",

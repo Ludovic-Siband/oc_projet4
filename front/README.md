@@ -47,7 +47,10 @@ for following change:
 
 > npm run test:watch
 
-### Jest code coverage :
+### Unitary code coverage :
 
-![Jest code coverage](./doc/images/code_coverage.png)
+![Unitary code coverage](./doc/images/code_coverage.png)
 
+### e2e code coverage :
+
+![e2e code coverage](./doc/images/e2e_coverage.png)
