@@ -133,3 +133,15 @@ Importez la collection Postman
 La documentation de Postman se trouve ici :
 
 https://learning.postman.com/docs/getting-started/importing-and-exporting-data/#importing-data-into-postman
+
+
+### Couverture de code 
+
+| Covering    | Percents   |
+| :-----------|:-----------|
+| Statements  | 94,63 %    |
+| Functions   | 95,12 %    |
+| Branchs     | 86,67 %    |
+| **Total**   | **94,07 %**|
+
+![Junit-coverage](pictures/coverage.png)

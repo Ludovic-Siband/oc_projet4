@@ -1,0 +1,25 @@
+TOKEN_SECRET: this-is-a-very-long-test-secret-that-is-at-least-64-bytes-long-1234567890
+DB_USER: sa
+DB_PASSWORD: sa
+DB_HOST: localhost
+DB_PORT: 3306
+DB_NAME: test
+
+oc:
+  app:
+    jwtExpirationMs: 60000
+    jwtSecret: this-is-a-very-long-test-secret-that-is-at-least-64-bytes-long-1234567890
+
+spring:
+  docker:
+    compose:
+      enabled: false
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:yoga_test;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
